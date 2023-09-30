@@ -1,4 +1,4 @@
-## clone
+## cloneの方法
 ```
 git clone git@github.com:YuugouOhno/youtube-jammer.git
 ```
