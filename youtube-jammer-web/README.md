@@ -1,3 +1,8 @@
+## cloneの方法
+```
+git clone git@github.com:YuugouOhno/youtube-jammer.git
+```
+## 環境構築
 ### 1.Docker Desktopのインストール
 以下のリンクからインストールできます。
 
