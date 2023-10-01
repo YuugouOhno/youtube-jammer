@@ -10,9 +10,9 @@ class WordController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Word $words)
     {
-        //
+        return view('words.index', ['words' => $words->get()]);
     }
 
     /**
@@ -20,15 +20,19 @@ class WordController extends Controller
      */
     public function create()
     {
-        //
+        return view('words.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Word $word)
     {
-        //
+        $input = $request['word'];
+        $input += ['user_id' => $request->user()->id];
+
+        $word->fill($input)->save();
+        return redirect()->route('word.index');
     }
 
     /**
@@ -36,7 +40,7 @@ class WordController extends Controller
      */
     public function show(Word $word)
     {
-        //
+        return view('words.show', ['word' => $word]);
     }
 
     /**
@@ -44,7 +48,7 @@ class WordController extends Controller
      */
     public function edit(Word $word)
     {
-        //
+        return view('words.edit', ['word' => $word]);
     }
 
     /**
@@ -52,7 +56,10 @@ class WordController extends Controller
      */
     public function update(Request $request, Word $word)
     {
-        //
+        $input = $request['word'];
+        $input += ['user_id' => $request->user()->id];
+        $word->fill($input)->save();
+        return redirect()->route('word.show', ['word' => $word->id]);
     }
 
     /**
@@ -60,6 +67,7 @@ class WordController extends Controller
      */
     public function destroy(Word $word)
     {
-        //
+        $word->delete();
+        return redirect()->route('word.index');
     }
 }
