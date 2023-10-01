@@ -18,6 +18,10 @@ docker run --rm \
     laravelsail/php81-composer:latest \
     composer install --ignore-platform-reqs
 ```
+windowsの場合はこちら
+```
+docker run --rm -v "${PWD}:/var/www/html" -w "/var/www/html" laravelsail/php81-composer:latest composer install --ignore-platform-reqs
+```
 
 ローカルを汚さないようにComposerとPHPを含むdockerコンテナを作成する。
 
