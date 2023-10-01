@@ -40,7 +40,7 @@ class WordController extends Controller
      */
     public function show(Word $word)
     {
-        //
+        return view('words.show', ['word' => $word]);
     }
 
     /**

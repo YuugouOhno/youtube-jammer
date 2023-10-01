@@ -12,6 +12,7 @@
             <div class="columns-1">
                 <p>{{$word->en_word}}</p>
                 <p>{{$word->ja_word}}</p>
+                <a href="{{ route('word.show', ['word' => $word->id]) }}">詳細</a>
                 <form action="{{ route('word.destroy', ['word' => $word->id]) }}" id="form_{{ $word->id }}" method="post">
                     @csrf
                     @method('DELETE')
