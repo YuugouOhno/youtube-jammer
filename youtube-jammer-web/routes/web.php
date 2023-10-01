@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\WordController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,6 +23,17 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::controller(WordController::class)->middleware(['auth'])->group(function(){
+    Route::get('/words/index', 'index')->name('word.index');
+    Route::post('/words/store', 'store')->name('word.store');
+    Route::get('/words/create', 'create')->name('word.create');
+    Route::get('/words/{word}', 'show')->name('word.show');
+    Route::put('/words/{word}', 'update')->name('word.update');
+    Route::delete('/words/{word}', 'destroy')->name('word.destroy');
+    Route::get('/words/{word}/edit', 'edit')->name('word.edit');
+});
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

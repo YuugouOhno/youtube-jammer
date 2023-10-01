@@ -12,6 +12,15 @@ class Word extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'en_word',
+        'ja_word',
+        'en_sentence',
+        'ja_sentence',
+        'description',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
