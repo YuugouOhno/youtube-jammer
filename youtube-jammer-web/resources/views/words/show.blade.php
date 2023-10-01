@@ -14,7 +14,7 @@
                 <p>{{$word->en_sentence}}</p>
                 <p>{{$word->ja_sentence}}</p>
                 <p>{{$word->description}}</p>
-                
+                <a href="{{ route('word.edit', ['word' => $word->id]) }}">編集</a>
             </div>
         </div>
     </div>

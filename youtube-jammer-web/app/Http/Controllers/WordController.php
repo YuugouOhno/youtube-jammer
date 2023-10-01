@@ -32,7 +32,7 @@ class WordController extends Controller
         $input += ['user_id' => $request->user()->id];
 
         $word->fill($input)->save();
-        return redirect('/words/index');
+        return redirect()->route('word.index');
     }
 
     /**
@@ -48,7 +48,7 @@ class WordController extends Controller
      */
     public function edit(Word $word)
     {
-        //
+        return view('words.edit', ['word' => $word]);
     }
 
     /**
@@ -56,7 +56,10 @@ class WordController extends Controller
      */
     public function update(Request $request, Word $word)
     {
-        //
+        $input = $request['word'];
+        $input += ['user_id' => $request->user()->id];
+        $word->fill($input)->save();
+        return redirect()->route('word.show', ['word' => $word->id]);
     }
 
     /**
@@ -65,6 +68,6 @@ class WordController extends Controller
     public function destroy(Word $word)
     {
         $word->delete();
-        return redirect('/words/index');
+        return redirect()->route('word.index');
     }
 }
