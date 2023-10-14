@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\QuizController;
 use App\Http\Controllers\WordController;
+use App\Http\Controllers\CardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,6 +43,13 @@ Route::controller(QuizController::class)->middleware(['auth'])->group(function()
     
 });
 
+Route::controller(CardController::class)->middleware(['auth'])->group(function(){
+    Route::get('/cards', 'index')->name('card');
+    Route::get('/cards/create', 'create')->name('card.create');
+    Route::get('/cards/show', 'show')->name('card.show');
+    
+    
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
