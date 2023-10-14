@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Tag::class);
     }
+
+    public function times()
+    {
+        return $this->hasMany(Time::class);
+    }
 }

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\QuizController;
 use App\Http\Controllers\WordController;
 
 /*
@@ -32,6 +33,13 @@ Route::controller(WordController::class)->middleware(['auth'])->group(function()
     Route::put('/words/{word}', 'update')->name('word.update');
     Route::delete('/words/{word}', 'destroy')->name('word.destroy');
     Route::get('/words/{word}/edit', 'edit')->name('word.edit');
+});
+
+Route::controller(QuizController::class)->middleware(['auth'])->group(function(){
+    Route::get('/quiz/index', 'index')->name('quiz.index');
+    Route::post('/quiz/store', 'store')->name('quiz.store');
+    Route::get('/quiz/selectmode', 'selectmode')->name('quiz.selectmode');
+    
 });
 
 
