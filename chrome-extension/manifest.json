@@ -17,5 +17,15 @@
                 "style.css"
             ]
         }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "images/bg_image.jpg",
+                "images/right_image.jpg",
+                "images/left_image.jpg"
+            ],
+            "matches": ["<all_urls>"]
+        }
     ]
 }
