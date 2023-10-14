@@ -7,24 +7,25 @@ for(let i=0;i<keywords.length;i++){
     }
 }
 
+window.alert(`${now_keyword}見るつもりか!?`)
 
 document.body.innerHTML += `
-    <div id="modal" class="modal">
-        <div id="container">
-        <button id="startButton" class="start">試練に挑む</button>
+    <div id="jammer_modal" class="modal">
+        <div id="jammer_container">
+            <button id="jammer_startButton" class="start">試練に挑む</button>
         </div>
     </div>`;
 
-const modal = document.getElementById("modal");
-const container = document.getElementById('container');
-let start
-let answer
+const modal = document.getElementById("jammer_modal");
+const container = document.getElementById('jammer_container');
+
 let q_list
 let current_q_num
 
 const CheckStart = () => {
-    start = document.getElementById("startButton");
+    const start = document.getElementById("jammer_startButton");
     start.addEventListener('click', () => {
+        console.log("試練に挑む、がクリックされました")
         CreateQuizContainer()
         GetQuizList()
         CreateNewQuiz(current_q_num)
@@ -33,12 +34,12 @@ const CheckStart = () => {
 }
 
 const CreateQuizContainer = () => {
-    const newParagraph = `
+    container.innerHTML = `
     <div id="quiz_container">
-        <p id="quiz"></p>
-        <input id="answer" />
-    </div>`
-    container.innerHTML = newParagraph
+        <p id="jammer_quiz"></p>
+        <input id="jammer_answer" />
+    </div>`;
+    console.log("quiz_containerを生成",container)
 }
 
 const GetQuizList = () => {
@@ -51,12 +52,12 @@ const GetQuizList = () => {
 }
 
 const CreateNewQuiz = (num) => {
-    const quiz = document.getElementById("quiz");
+    const quiz = document.getElementById("jammer_quiz");
     quiz.textContent = q_list[num]["ja"]
 }
 
 const CheckAnswer = (current_q_num) => {
-    answer = document.getElementById("answer")
+    const answer = document.getElementById("jammer_answer")
     answer.addEventListener('input', () => {
         if (answer.value == q_list[current_q_num]["en"]) {
             console.log("正解")
@@ -74,8 +75,8 @@ const CheckAnswer = (current_q_num) => {
 const ShowLastPage = () => {
     const newParagraph = `
     <div id="last_container">
-        <button id="startButton" class="start">試練に挑む</button>
-        <button id="finishButton" class="finish">${now_keyword}を見る</button>
+        <button id="jammer_startButton" class="start">試練に挑む</button>
+        <button id="jammer_finishButton" class="finish">${now_keyword}を見る</button>
     </div>`
     container.innerHTML = newParagraph
     CheckStart()
@@ -83,9 +84,10 @@ const ShowLastPage = () => {
 }
 
 const CheckFinish = () => {
-    const finish = document.getElementById("finishButton")
+    const finish = document.getElementById("jammer_finishButton")
     finish.addEventListener("click", () => {
         modal.style.display = "none";
+        window.location.replace('https://atcoder.jp');
     })
 }
 
