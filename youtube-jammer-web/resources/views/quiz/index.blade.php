@@ -16,6 +16,7 @@
         
         <script>
             const words = @json($words);
+            console.log(words);
             const times = @json($times);
             const mode = @json($mode);
             const container = document.getElementById('quizcontainer');
