@@ -40,7 +40,6 @@ Route::controller(QuizController::class)->middleware(['auth'])->group(function()
     Route::get('/quiz/index/{mode}', 'index')->name('quiz.index');
     Route::post('/quiz/store', 'store')->name('quiz.store');
     Route::get('/quiz/selectmode', 'selectmode')->name('quiz.selectmode');
-    
 });
 
 Route::controller(CardController::class)->middleware(['auth'])->group(function(){
