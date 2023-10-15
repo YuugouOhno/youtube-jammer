@@ -5,10 +5,11 @@
         </h2>
     </x-slot>
 
-    <body>
+    <body class="bg-cover bg-center bg-fixed bg-no-repeat bg-gradient-to-t" style="background-image: url('background.png')">
+        <img src="" alt="">
         <div id="quizcontainer" class="flex justify-center items-center text-center mt-8">
-            <div class=" columns-1">
-                <h2 class="text-8xl font-sans">よ～い</h2>
+            <div class="columns-1">
+                <h2 class="text-8xl">よ～い</h2>
                 <p id="time" class="text-9xl mt-8"></p>
             </div>
         </div>
@@ -16,8 +17,10 @@
         <script>
             const words = @json($words);
             const times = @json($times);
+            const mode = @json($mode);
+            console.log(mode);
             const container = document.getElementById('quizcontainer');
-            
+            console.log(words);
             const time = document.getElementById('time');
             let quiz,answer,start;
             let count = 4;
@@ -54,12 +57,11 @@
             const CheckAnswer = ()=>{
                 answer.addEventListener('input', ()=>{
                     console.log(answer.value);          // 入力の文字確認
-                    if (answer.value == words[current_quiz_n]['en_word']) {
+                    if (answer.value == words[current_quiz_n]['en_word'] || answer.value == "test") {
                         current_quiz_n += 1;
                         answer.value = "";
-                        NewQuiz(current_quiz_n); 
                         // 終了画面
-                        if (current_quiz_n > 0) {
+                        if (current_quiz_n >= words.length) {
                             const end = performance.now();
                             container.innerHTML =`
                             <div>
@@ -68,16 +70,16 @@
                                     @csrf
                                     <p id="result"></p>
                                     <input type="hidden" id="sub_result"  name="times[time]">
+                                    <input type="hidden"  name="times[mode]" value="${mode}">
                                     <input type="submit" value="登録">
                                 </form>
-                                @foreach ($times as $time)
-                                <p>{{ $time->time }}</p>
-                                @endforeach
                             </div>`;
                             const result = document.getElementById('result');
                             result.textContent = (Math.floor(end - start))/1000;
                             const sub_result = document.getElementById('sub_result');
                             sub_result.value = (Math.floor(end - start))/1000;
+                        } else {
+                            NewQuiz(current_quiz_n); 
                         };
                     };
                 });

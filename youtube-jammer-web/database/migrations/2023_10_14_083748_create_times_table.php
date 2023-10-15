@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('times', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->integer('time');
+            $table->float('time');
+            $table->integer("mode");
             $table->timestamps();
         });
     }

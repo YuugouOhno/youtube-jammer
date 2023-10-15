@@ -12,6 +12,7 @@ class Time extends Model
     protected $fillable = [
         'user_id',
         'time',
+        'mode',
     ];
 
     public function user()
