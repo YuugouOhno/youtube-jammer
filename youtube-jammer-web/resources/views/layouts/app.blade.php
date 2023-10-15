@@ -20,15 +20,16 @@
 
             <!-- Page Heading -->
             @if (isset($header))
-                <header class="bg-white shadow">
+                <header class="bg-white shadow z-20 relative">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
             @endif
+            <img src="{{asset('images/background.png')}}" alt="画像が読み込めていません" class="w-full h-full z-0 fixed top-0 left-0">
 
             <!-- Page Content -->
-            <main>
+            <main class="z-20 relative">
                 {{ $slot }}
             </main>
         </div>

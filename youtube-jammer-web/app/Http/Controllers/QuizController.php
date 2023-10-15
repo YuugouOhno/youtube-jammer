@@ -13,11 +13,11 @@ class QuizController extends Controller
     {   
         $limit = 1;
         if($mode == 1) {
-            $limit = 1;
+            $limit = 10;
         } elseif ($mode == 2) {
-            $limit = 2;
+            $limit = 50;
         } elseif ($mode == 3) {
-            $limit = 3;
+            $limit = 100;
         }
         return view('quiz.index', ['words' => $word->inRandomOrder()->limit($limit)->get(),'times' => $time->get(),'mode' => $mode]);
     }

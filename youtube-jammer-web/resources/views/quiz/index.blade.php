@@ -1,26 +1,24 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        {{-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('クイズ画面') }}
-        </h2>
+        </h2> --}}
     </x-slot>
 
-    <body class="bg-cover bg-center bg-fixed bg-no-repeat bg-gradient-to-t" style="background-image: url('background.png')">
-        <img src="" alt="">
-        <div id="quizcontainer" class="flex justify-center items-center text-center mt-8">
-            <div class="columns-1">
-                <h2 class="text-8xl">よ～い</h2>
-                <p id="time" class="text-9xl mt-8"></p>
+    <body>
+            <div id="quizcontainer" class="flex justify-center items-center text-center mt-52 z-10 relative">
+                <div class="columns-1">
+                    <h2 class="text-8xl text-gray-100">よ～い</h2>
+                    <p id="time" class="text-9xl mt-8 text-gray-100"></p>
+                </div>
             </div>
-        </div>
+            
         
         <script>
             const words = @json($words);
             const times = @json($times);
             const mode = @json($mode);
-            console.log(mode);
             const container = document.getElementById('quizcontainer');
-            console.log(words);
             const time = document.getElementById('time');
             let quiz,answer,start;
             let count = 4;
@@ -34,12 +32,11 @@
                 } else {
                     //countが0以下になったら0を表示
                     container.innerHTML =`
-                    <div>
-                        <p class="text-3xl">日本語に合う英単語を入力しなさい</p>
-                        <p id="quiz"></p>
+                    <div class="mt-24">
+                        <p class="text-3xl text-gray-100">日本語に合う英単語を入力しなさい</p>
+                        <p id="quiz" class="mt-6 mb-2 text-xl text-gray-100"></p>
                         <input id="answer" autofocus>
                     </div>` 
-                    console.log("finish");
                     clearInterval(countDownTimer); 
                     quiz = document.getElementById('quiz');
                     answer = document.getElementById('answer');
@@ -56,8 +53,8 @@
             
             const CheckAnswer = ()=>{
                 answer.addEventListener('input', ()=>{
-                    console.log(answer.value);          // 入力の文字確認
-                    if (answer.value == words[current_quiz_n]['en_word'] || answer.value == "test") {
+                    // console.log(answer.value);           入力の文字確認
+                    if (answer.value == words[current_quiz_n]['en_word']) {
                         current_quiz_n += 1;
                         answer.value = "";
                         // 終了画面
@@ -65,14 +62,17 @@
                             const end = performance.now();
                             container.innerHTML =`
                             <div>
-                                <p>クリア</p>
+                                <p class="text-7xl text-gray-100"> クリア!</p>
                                 <form action="/quiz/store" method="POST">
                                     @csrf
-                                    <p id="result"></p>
-                                    <input type="hidden" id="sub_result"  name="times[time]">
-                                    <input type="hidden"  name="times[mode]" value="${mode}">
-                                    <input type="submit" value="登録">
-                                </form>
+                                    <p id="result" class="text-7xl mt-40 mb-20 text-gray-100"></p>
+                                    <div class="flex space-x-20">
+                                        <a href="{{ route('quiz.index', ['mode' => $mode]) }}" class="text-3xl bg-gray-100 text-black p-1 rounded-md">もう一度</a>
+                                        <input type="submit" value="登録" class="text-3xl bg-gray-100 text-black p-1 rounded-md cursor-pointer">
+                                    </div>
+                                        <input type="hidden" id="sub_result"  name="times[time]">
+                                        <input type="hidden"  name="times[mode]" value="${mode}">
+                                    </form>
                             </div>`;
                             const result = document.getElementById('result');
                             result.textContent = (Math.floor(end - start))/1000;
