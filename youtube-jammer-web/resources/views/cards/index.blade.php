@@ -41,11 +41,15 @@
             .card .front {
                 color: white;
                 background: #2a2113;
+                border: solid;
+                border-color: white;
             }
             .card .back {
                 background: #b5a176;
                 position: relative;
                 transform: rotateY(-180deg);
+                border: solid;
+                border-color: black;
             }
             .flipped .front {
                 transform: rotateY(180deg);
