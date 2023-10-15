@@ -10,22 +10,55 @@ for(let i=0;i<keywords.length;i++){
 window.alert(`${now_keyword}見るつもりか!?`)
 
 document.body.innerHTML += `
-    <div id="jammer_modal" class="modal">
-        <div id="jammer_container">
-            <button id="jammer_startButton" class="start">試練に挑む</button>
-        </div>
-    </div>`;
+<div id="jammer_modal" class="jammer_modal">
+    <div class="jammer_split-container">
+        <div id="jammer_left" class="jammer_split jammer_left"></div>
+        <div id="jammer_right" class="jammer_split jammer_right"></div>
+    </div>
+
+    <div id="jammer_container">
+        <button id="jammer_start" class="jammer_start jammer_btn-flat"><span>試練に挑む</span></button>
+    </div>
+</div>`;
+
+
 
 const modal = document.getElementById("jammer_modal");
+const left = document.getElementById("jammer_left");
+const right = document.getElementById("jammer_right");
 const container = document.getElementById('jammer_container');
+
+
+const bg_imageUrl = chrome.runtime.getURL('images/bg_image.jpg');
+const left_imageUrl = chrome.runtime.getURL('images/left_image.jpg');
+const right_imageUrl = chrome.runtime.getURL('images/right_image.jpg');
+
+modal.style.backgroundImage = `url('${bg_imageUrl}')`;
+left.style.backgroundImage = `url('${left_imageUrl}')`;
+
+right.style.backgroundImage = `url('${right_imageUrl}')`;
+
+let linkElement1 = document.createElement('link');
+let linkElement2 = document.createElement('link');
+
+linkElement1.href = 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap';
+linkElement2.href = 'https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;900&display=swap';
+linkElement1.rel = 'stylesheet';
+linkElement2.rel = 'stylesheet';
+
+document.head.appendChild(linkElement1);
+document.head.appendChild(linkElement2);
 
 let q_list
 let current_q_num
 
 const CheckStart = () => {
-    const start = document.getElementById("jammer_startButton");
+    const start = document.getElementById("jammer_start");
+    console.log(start)
     start.addEventListener('click', () => {
         console.log("試練に挑む、がクリックされました")
+        const split_container = document.querySelector('.jammer_split-container');
+        split_container.classList.add('jammer_animate');
         CreateQuizContainer()
         GetQuizList()
         CreateNewQuiz(current_q_num)
@@ -35,11 +68,11 @@ const CheckStart = () => {
 
 const CreateQuizContainer = () => {
     container.innerHTML = `
-    <div id="quiz_container">
-        <p id="jammer_quiz"></p>
-        <input id="jammer_answer" />
+    <div id="jammer_quiz_container" class="jammer_quiz_container">
+        <p id="jammer_quiz" class="jammer_quiz"></p>
+        <input id="jammer_answer" class="jammer_answer"/>
     </div>`;
-    console.log("quiz_containerを生成",container)
+    console.log("jammer_quiz_containerを生成",container)
 }
 
 const GetQuizList = () => {
@@ -58,7 +91,9 @@ const CreateNewQuiz = (num) => {
 
 const CheckAnswer = (current_q_num) => {
     const answer = document.getElementById("jammer_answer")
+    answer.focus();
     answer.addEventListener('input', () => {
+        console.log(answer.value)
         if (answer.value == q_list[current_q_num]["en"]) {
             console.log("正解")
             current_q_num += 1
@@ -74,20 +109,32 @@ const CheckAnswer = (current_q_num) => {
 
 const ShowLastPage = () => {
     const newParagraph = `
-    <div id="last_container">
-        <button id="jammer_startButton" class="start">試練に挑む</button>
-        <button id="jammer_finishButton" class="finish">${now_keyword}を見る</button>
+    <div id="jammer_last_container" class="jammer_last_container">
+            <button id="jammer_start" class="jammer_start jammer_btn-flat"><span>試練に挑む</span></button>
     </div>`
     container.innerHTML = newParagraph
+    const split_container = document.querySelector('.jammer_split-container');
+    split_container.classList.remove('jammer_animate');
     CheckStart()
     CheckFinish()
 }
 
 const CheckFinish = () => {
-    const finish = document.getElementById("jammer_finishButton")
+    // p要素を作成
+    var pElement = document.createElement('p');
+    // p要素の内容を設定
+    pElement.textContent = `${now_keyword}を見る`;
+    pElement.id = 'jammer_finish';
+    pElement.style.position = 'fixed';
+    pElement.style.bottom = '0';
+    pElement.style.right = '0';
+    pElement.style.padding = '10px';
+    pElement.style.color = 'gray';
+    pElement.style.cursor = 'pointer';
+    container.appendChild(pElement);
+    const finish = document.getElementById("jammer_finish")
     finish.addEventListener("click", () => {
         modal.style.display = "none";
-        window.location.replace('https://atcoder.jp');
     })
 }
 
