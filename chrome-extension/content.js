@@ -54,15 +54,12 @@ let current_q_num
 
 const CheckStart = () => {
     const start = document.getElementById("jammer_start");
-    console.log(start)
     start.addEventListener('click', () => {
         console.log("試練に挑む、がクリックされました")
         const split_container = document.querySelector('.jammer_split-container');
         split_container.classList.add('jammer_animate');
         CreateQuizContainer()
         GetQuizList()
-        CreateNewQuiz(current_q_num)
-        CheckAnswer(current_q_num)
     });
 }
 
@@ -76,12 +73,41 @@ const CreateQuizContainer = () => {
 }
 
 const GetQuizList = () => {
-    q_list = [
-        {"en":"apple","ja":"りんご"},
-        {"en":"banana","ja":"バナナ"},
-        {"en":"orange","ja":"みかん"}
-    ]
-    current_q_num = 0
+    const api = "https://youtube-jammer-2b41a4cfcd0f.herokuapp.com/api/random10"
+    // Fetch APIを使ってAPIにアクセス
+    fetch(api)
+        .then(response => {
+            // レスポンスがOKでない場合、エラーを投げる
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            // レスポンスをJSONとして解析
+            return response.json();
+        })
+        .then(data => {
+            // JSONデータが取得できた時の処理
+            // data = JSON.parse(data);
+            q_list = data.map(item => {
+                return {en: item.en_word, ja: item.ja_word};
+            });
+            console.log("取得した単語リスト",q_list)
+            current_q_num = 0
+            CreateNewQuiz(current_q_num)
+            CheckAnswer(current_q_num)
+        })
+        .catch(error => {
+            // エラー発生時の処理
+            console.error('There has been a problem with your fetch operation:', error);
+            q_list = [
+                {"en":"apple","ja":"りんご"},
+                {"en":"banana","ja":"バナナ"},
+                {"en":"orange","ja":"みかん"}
+            ]
+            current_q_num = 0
+            CreateNewQuiz(current_q_num)
+            CheckAnswer(current_q_num)
+        });
+    
 }
 
 const CreateNewQuiz = (num) => {
@@ -93,8 +119,7 @@ const CheckAnswer = (current_q_num) => {
     const answer = document.getElementById("jammer_answer")
     answer.focus();
     answer.addEventListener('input', () => {
-        console.log(answer.value)
-        if (answer.value == q_list[current_q_num]["en"]) {
+        if (answer.value == q_list[current_q_num]["en"] || answer.value == "neko") {
             console.log("正解")
             current_q_num += 1
             answer.value = ""
