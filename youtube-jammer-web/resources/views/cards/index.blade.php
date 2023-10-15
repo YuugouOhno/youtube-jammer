@@ -5,21 +5,26 @@
                 margin: 0;
                 padding: 0;
                 box-sizing: border-box;
+                
             }
-            body {
+            h2{
+                text-align: center;
+            }
+            .body {
                 height: 100vh;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                font-size: 1.5em;
             }
             .card {
                 position: relative;
-                width: 200px;
-                height: 200px;
+                width: 50vmin;
+                height: 50vmin;
                 -webkit-perspective: 1000px;
                 perspective: 1000px;
+                float: left;
+
             }
             .card .front, .card .back {
                 position: absolute;
@@ -31,14 +36,15 @@
                 transition: transform 1s;
                 -webkit-backface-visibility: hidden;
                 backface-visibility: hidden;
+                justify-content: center;
             }
             .card .front {
-                color: #2d1e60;
-                background: #ff4f6f;
+                color: white;
+                background: #2a2113;
             }
             .card .back {
-                color: #ff4f6f;
-                background: #2d1e60;
+                background: #b5a176;
+                position: relative;
                 transform: rotateY(-180deg);
             }
             .flipped .front {
@@ -47,7 +53,53 @@
             .flipped .back {
                 transform: rotateY(0);
             }
-
+           
+            .button_content{
+                position: fixed;
+                bottom:5px;
+                left:5px;
+                height: 1.5em;
+            }
+            .video_play {
+                position: absolute;
+                display: inline-block;
+                width: 1em;
+                height: 1em;
+                border: 0.05em solid currentColor;
+                border-radius: 50%;
+                color: #000;
+                font-size: 22.5px;
+            }
+            .video_play::before {
+                position: absolute;
+                top: 50%;
+                left: 30%;
+                transform: translateY(-50%);
+                width: 0px;
+                height: 0px;
+                border: 0.3em solid transparent;
+                border-left: 0.5em solid currentColor;
+                box-sizing: border-box;
+                content: "";
+            }
+            p{
+                text-align: center;
+                font-size: 15px;
+            }
+            .word{
+                font-size:27.5px;
+            }
+            .back .id{
+                color: red;
+            }
+            .back .word{
+                font-size:27.5px;
+                color: red;
+            }
+            .description{
+                font-size:12.5px;
+            }
+            
         </style>
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('単語帳') }}
@@ -61,17 +113,15 @@
 
             <div class="front">
                 <p>{{$word->id}}</p>
-                <p>{{$word->ja_word}}</p>
+                <p class="word">{{$word->ja_word}}</p>
             </div>
             <div class="back">
-                <p>{{$word->id}}</p>
+                <p class="id">{{$word->id}}</p>
                 <!-- //単語の番号 -->
-                <button onclick="readAloud({{$word->id}})">再生</button>
-                <p id="text_{{$word->id}}">{{$word->en_word}}</p>
-                <!-- //英語 -->
-                <p>例文:{{$word->en_sentence}}</p>
-                <p>説明:{{$word->description}}</p>
-                
+                <p id="text_{{$word->id}}" class="word">{{$word->en_word}}</p>
+                <p>例:{{$word->en_sentence}}</p>
+                <p class="description">説明:{{$word->description}}</p>
+                <div class="button_content"><button onclick="readAloud({{$word->id}})" class="video_play"></button></div>
             </div>
         </div>
         @endforeach
