@@ -15,8 +15,9 @@ class TimeSeeder extends Seeder
     public function run(): void
     {
         DB::table('times')->insert([
-            'user_id' => 1,
+            'user_id' => 2,
             'time' => 20.22,
+            'mode' => 1,
             'created_at' => new DateTime(),
             'updated_at' => new DateTime(),
         ]);
